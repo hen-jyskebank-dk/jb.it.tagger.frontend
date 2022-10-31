@@ -5,5 +5,49 @@
 >
   <kirby-page-content>
     <p>Home Kirby page content</p>
+
+    <kirby-form-field label="System ID">
+      <input
+        kirby-input
+        size="md"
+        type="number"
+        min="0"
+        max="10000"
+        placeholder="System ID"
+      />
+    </kirby-form-field>
+
+    <button
+      kirby-button
+      size="sm"
+      (click)="GetModels('70D8FDA6-3126-411D-9A88-8E047CF2A290')"
+    >
+      Hent modeller for system
+    </button>
+
+    <button
+      kirby-button
+      size="sm"
+      (click)="GetDetails('70D8FDA6-3126-411D-9A88-8E047CF2A290')"
+    >
+      Vis modeltræ for model:
+    </button>
+
+    <ul>
+      <li *ngFor="let item of data$ | async">
+        {{ item.modelName }}
+      </li>
+    </ul>
+
+    <ng-container *ngIf="{ data: data$ | async } as obs">
+      <ng-container *ngIf="obs.data != null">
+        <kirby-list [items]="obs.data">
+          <kirby-item *kirbyListItemTemplate="let item">
+            <h3>{{ item.modelID }}</h3>
+            <data slot="end">{{ item.modelName }}</data>
+          </kirby-item>
+        </kirby-list>
+      </ng-container>
+    </ng-container>
   </kirby-page-content>
 </kirby-page>
